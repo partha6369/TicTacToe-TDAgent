@@ -99,6 +99,10 @@ def reset_game():
     global board, game_over
     board = [' '] * 9
     game_over = False
+
+    # Agent makes the first move
+    agent_move = td_agent.choose_action(board, agent_symbol)
+    board[agent_move] = agent_symbol
     return get_board_df(), "Your move."
 
 def play_human(square):
