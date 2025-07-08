@@ -91,9 +91,6 @@ def check_winner(b, symbol):
 def is_draw(b):
     return all(cell != ' ' for cell in b)
 
-# def get_board_df():
-#     grid = np.array(board).reshape(3, 3)
-#     return pd.DataFrame(grid)
 def get_board_df():
     grid = np.array(board).reshape(3, 3)
     return pd.DataFrame(grid, columns=["A", "B", "C"], index=["1", "2", "3"])
