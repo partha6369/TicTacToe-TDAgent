@@ -1,3 +1,23 @@
+# =============================================================================
+# Tic-Tac-Toe
+# A Temporal Difference (TD) Learning Agent
+# 
+# An interactive AI-powered Tic-Tac-Toe application where a human player competes
+# against a reinforcement learning (Temporal Difference) agent that learns optimal
+# strategies through state-value updates.
+#
+# Copyright © 2026 Dr Partha Majumdar. All Rights Reserved.
+#
+# This software, including its source code, algorithms, architecture,
+# learning logic, and interface design, is the intellectual property of
+# Dr Partha Majumdar. Unauthorised copying, modification, distribution,
+# reverse engineering, or commercial deployment is strictly prohibited
+# without prior written permission.
+#
+# For licensing or commercial enquiries:
+# Contact: partha.majumdar@majumdarconsultancy.in
+# =============================================================================
+
 # === Install required libraries ===
 import subprocess
 import sys
@@ -198,8 +218,20 @@ paypal_url = os.getenv("PAYPAL_URL", "https://www.paypal.com/donate/dummy-link")
 # --- Gradio Interface ---
 static_board_reference = get_board_markings()
 
-with gr.Blocks(title="Tic Tac Toe with TD Agent") as demo:
-    gr.Markdown("## 🎯 Play Tic Tac Toe Against a TD-Learning Agent")
+APP_TITLE = "🎯 Play Tic Tac Toe Against a TD-Learning Agent"
+APP_DESCRIPTION = (
+    "Play Tic Tac Toe against a self-learning AI agent powered by Temporal Difference (TD) learning, where each move helps the machine get smarter in real time."
+)
+
+with gr.Blocks(title="Tic Tac Toe with TD Agent") as app:
+    # Title and Description
+    gr.HTML(
+        f"""
+        <p style='text-align: center; font-size: 40px; font-weight: bold;'>{APP_TITLE}</p>
+        <p style='text-align: center; font-size: 20px; color: #555;'><sub>{APP_DESCRIPTION}</sub></p>
+        <hr>
+        """
+    )
 
     player_state = gr.State()  # Persistent state across interactions
 
@@ -219,7 +251,7 @@ with gr.Blocks(title="Tic Tac Toe with TD Agent") as demo:
     move_btn.click(fn=play_human, inputs=[square_input, player_state], outputs=[board_display, game_status, stats_display, player_label])
     reset_btn.click(fn=reset_game, inputs=player_state, outputs=[board_display, game_status, stats_display, player_label])
     
-    demo.load(fn=init_and_start_game, inputs=None, outputs=[board_display, game_status, stats_display, player_state])
+    app.load(fn=init_and_start_game, inputs=None, outputs=[board_display, game_status, stats_display, player_state])
     
     with gr.Row():
         gr.HTML(f"""
@@ -231,9 +263,28 @@ with gr.Blocks(title="Tic Tac Toe with TD Agent") as demo:
         </a>
         """)
 
+    with gr.Row():
+        gr.HTML("""
+        <a href="https://huggingface.co/spaces/partha6369/partha-research-centre"
+           target="_blank"
+           rel="noopener noreferrer">
+            <button style="
+                background-color:#111827;
+                color:white;
+                border:none;
+                padding:10px 20px;
+                font-size:16px;
+                border-radius:8px;
+                cursor:pointer;
+                margin-top:10px;">
+                🔗 Dr Partha Majumdar's Research Centre
+            </button>
+        </a>
+        """)
+
 if __name__ == "__main__":
     # Determine if running on Hugging Face Spaces
     on_spaces = os.environ.get("SPACE_ID") is not None
 
     # Launch the app conditionally
-    demo.launch(share=not on_spaces)
+    app.launch(share=not on_spaces)
